@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>6D4035D6-1F5A-42FB-9265-F22E80A263BE</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Chat</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>362B7A59-9C14-4905-B323-AAC6909E2DA7</key>
+		<string>ssh://github.com/kperson/thrift-tutorial.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>ios/Chat.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>362B7A59-9C14-4905-B323-AAC6909E2DA7</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/kperson/thrift-tutorial.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>362B7A59-9C14-4905-B323-AAC6909E2DA7</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>362B7A59-9C14-4905-B323-AAC6909E2DA7</string>
+			<key>IDESourceControlWCCName</key>
+			<string>thrift-tutorial</string>
+		</dict>
+	</array>
+</dict>
+</plist>
