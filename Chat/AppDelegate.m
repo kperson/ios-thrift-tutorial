@@ -13,6 +13,12 @@
 #import "ChatConstants.h"
 #import "MessageManager.h"
 
+@interface AppDelegate ()
+
+@property (strong, nonatomic) RegisterTokenService *tokenService;
+
+@end
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -53,8 +59,8 @@
 
     NSString *pushToken = [self stringFromDeviceTokenData:newDeviceToken];
     NSString *authToken = [ChatClientFactory sharedInstance].authToken;
-    RegisterTokenService *tokenService = [[RegisterTokenService alloc] initWithPushToken:pushToken authToken:authToken delegate:NULL];
-    [tokenService execute];
+    [[[RegisterTokenService alloc] initWithPushToken:pushToken authToken:authToken] execute];
+    //[self.tokenService execute];
 }
 
 -(NSString* )stringFromDeviceTokenData:(NSData *)deviceToken

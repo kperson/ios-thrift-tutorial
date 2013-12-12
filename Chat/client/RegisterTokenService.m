@@ -11,40 +11,30 @@
 
 @interface RegisterTokenService ()
 
-@property (strong, nonatomic) NSString *authToken;
-@property (strong, nonatomic) NSString *pushToken;
-@property (weak, nonatomic) id<RegisterTokenDelegate> delegate;
+@property (copy) NSString *authToken;
+@property (copy) NSString *pushToken;
 @property (nonatomic, strong) NSOperationQueue *asyncQueue;
-@property (strong, nonatomic) ChatAPIClient *client;
 
 @end
 
 @implementation RegisterTokenService
 
--(id)initWithPushToken:(NSString *)pushToken authToken:(NSString *)authToken delegate:(id<RegisterTokenDelegate>)delegte {
+-(id)initWithPushToken:(NSString *)pushToken authToken:(NSString *)authToken {
     self = [super init];
     if(self){
         self.authToken = authToken;
         self.pushToken = pushToken;
-        self.delegate = delegte;
     }
     return self;
 }
 
 -(void)execute {
-    self.client = [[ChatClientFactory sharedInstance] client];
-    self.asyncQueue = [self fetchAsyncQueue];
-    __weak RegisterTokenService *weakSelf = self;
-    [self.asyncQueue addOperationWithBlock:^(void) {
-        [weakSelf.client registeriOSToken:weakSelf.pushToken :weakSelf.authToken];
-        [self performSelectorOnMainThread:@selector(success) withObject:nil waitUntilDone:NO];
+    ChatAPIClient *client = [[ChatClientFactory sharedInstance] client];
+    self.asyncQueue = [[NSOperationQueue alloc] init];
+    [self.asyncQueue setMaxConcurrentOperationCount:3];
+    [self.asyncQueue addOperationWithBlock:^{
+        [client registeriOSToken:self.pushToken :self.authToken];
     }];
-}
-
--(void)success {
-    if(self.delegate){
-        [self.delegate onTokenRegistered];
-    }
 }
 
 @end

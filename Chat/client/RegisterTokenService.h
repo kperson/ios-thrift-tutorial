@@ -8,15 +8,9 @@
 
 #import "BaseService.h"
 
-@protocol RegisterTokenDelegate <NSObject>
-
--(void)onTokenRegistered;
-
-@end
-
 @interface RegisterTokenService : BaseService
 
--(id)initWithPushToken:(NSString *)pushToken authToken:(NSString *)authToken delegate:(id<RegisterTokenDelegate>)delegte;
+-(id)initWithPushToken:(NSString *)pushToken authToken:(NSString *)authToken;
 -(void)execute;
 
 @end

@@ -13,7 +13,7 @@
 
 -(NSOperationQueue *)fetchAsyncQueue {
     NSOperationQueue *asyncQueue = [[NSOperationQueue alloc] init];
-    [asyncQueue setMaxConcurrentOperationCount:1];
+    [asyncQueue setMaxConcurrentOperationCount:1] ;
     return asyncQueue;
 }
 
