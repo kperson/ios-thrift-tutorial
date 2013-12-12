@@ -36,6 +36,7 @@
 -(ChatAPIClient *)client {
     if(!self.myClient){
         //NSURL *endPoint = [NSURL URLWithString:@"http://server-env-kyr2mdefeg.elasticbeanstalk.com"];
+        //NSURL *endPoint = [NSURL URLWithString:@"http://192.168.2.166:8080"];
         NSURL *endPoint = [NSURL URLWithString:@"http://192.168.0.100:8080"];
         THTTPClient *transport = [[THTTPClient alloc] initWithURL:endPoint];
         TBinaryProtocol *protocol = [[TBinaryProtocol alloc] initWithTransport:transport strictRead:YES strictWrite:YES];
