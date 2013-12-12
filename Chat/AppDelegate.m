@@ -8,6 +8,11 @@
 
 #import "AppDelegate.h"
 
+#import "ChatClientFactory.h"
+#import "RegisterTokenService.h"
+#import "ChatConstants.h"
+#import "MessageManager.h"
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -43,4 +48,32 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+-(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken
+{
+
+    NSString *pushToken = [self stringFromDeviceTokenData:newDeviceToken];
+    NSString *authToken = [ChatClientFactory sharedInstance].authToken;
+    RegisterTokenService *tokenService = [[RegisterTokenService alloc] initWithPushToken:pushToken authToken:authToken delegate:NULL];
+    [tokenService execute];
+}
+
+-(NSString* )stringFromDeviceTokenData:(NSData *)deviceToken
+{
+    const char *data = [deviceToken bytes];
+    NSMutableString* token = [NSMutableString string];
+    for (int i = 0; i < [deviceToken length]; i++) {
+        [token appendFormat:@"%02.2hhX", data[i]];
+    }
+    return [token copy];
+}
+
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
+    NSString *message = [userInfo objectForKey:@"message"];
+    [[MessageManager sharedInstance] messageReceived:message];
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+	NSLog(@"Failed to get token, error: %@", error);
+}
 @end

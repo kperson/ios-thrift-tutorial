@@ -17,91 +17,124 @@
 
 @implementation ChatMessage
 
-- (id) initWithMessage: (NSString *) message image: (NSArray *) image
+- (id) initWithContent: (NSString *) content sender: (NSString *) sender recipient: (NSString *) recipient
 {
   self = [super init];
-  __message = [message retain];
-  __message_isset = YES;
-  __image = [image retain];
-  __image_isset = YES;
+  __content = [content retain];
+  __content_isset = YES;
+  __sender = [sender retain];
+  __sender_isset = YES;
+  __recipient = [recipient retain];
+  __recipient_isset = YES;
   return self;
 }
 
 - (id) initWithCoder: (NSCoder *) decoder
 {
   self = [super init];
-  if ([decoder containsValueForKey: @"message"])
+  if ([decoder containsValueForKey: @"content"])
   {
-    __message = [[decoder decodeObjectForKey: @"message"] retain];
-    __message_isset = YES;
+    __content = [[decoder decodeObjectForKey: @"content"] retain];
+    __content_isset = YES;
   }
-  if ([decoder containsValueForKey: @"image"])
+  if ([decoder containsValueForKey: @"sender"])
   {
-    __image = [[decoder decodeObjectForKey: @"image"] retain];
-    __image_isset = YES;
+    __sender = [[decoder decodeObjectForKey: @"sender"] retain];
+    __sender_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"recipient"])
+  {
+    __recipient = [[decoder decodeObjectForKey: @"recipient"] retain];
+    __recipient_isset = YES;
   }
   return self;
 }
 
 - (void) encodeWithCoder: (NSCoder *) encoder
 {
-  if (__message_isset)
+  if (__content_isset)
   {
-    [encoder encodeObject: __message forKey: @"message"];
+    [encoder encodeObject: __content forKey: @"content"];
   }
-  if (__image_isset)
+  if (__sender_isset)
   {
-    [encoder encodeObject: __image forKey: @"image"];
+    [encoder encodeObject: __sender forKey: @"sender"];
+  }
+  if (__recipient_isset)
+  {
+    [encoder encodeObject: __recipient forKey: @"recipient"];
   }
 }
 
 - (void) dealloc
 {
-  [__message release];
-  [__image release];
+  [__content release];
+  [__sender release];
+  [__recipient release];
   [super dealloc];
 }
 
-- (NSString *) message {
-  return [[__message retain] autorelease];
+- (NSString *) content {
+  return [[__content retain] autorelease];
 }
 
-- (void) setMessage: (NSString *) message {
-  [message retain];
-  [__message release];
-  __message = message;
-  __message_isset = YES;
+- (void) setContent: (NSString *) content {
+  [content retain];
+  [__content release];
+  __content = content;
+  __content_isset = YES;
 }
 
-- (BOOL) messageIsSet {
-  return __message_isset;
+- (BOOL) contentIsSet {
+  return __content_isset;
 }
 
-- (void) unsetMessage {
-  [__message release];
-  __message = nil;
-  __message_isset = NO;
+- (void) unsetContent {
+  [__content release];
+  __content = nil;
+  __content_isset = NO;
 }
 
-- (NSArray *) image {
-  return [[__image retain] autorelease];
+- (NSString *) sender {
+  return [[__sender retain] autorelease];
 }
 
-- (void) setImage: (NSArray *) image {
-  [image retain];
-  [__image release];
-  __image = image;
-  __image_isset = YES;
+- (void) setSender: (NSString *) sender {
+  [sender retain];
+  [__sender release];
+  __sender = sender;
+  __sender_isset = YES;
 }
 
-- (BOOL) imageIsSet {
-  return __image_isset;
+- (BOOL) senderIsSet {
+  return __sender_isset;
 }
 
-- (void) unsetImage {
-  [__image release];
-  __image = nil;
-  __image_isset = NO;
+- (void) unsetSender {
+  [__sender release];
+  __sender = nil;
+  __sender_isset = NO;
+}
+
+- (NSString *) recipient {
+  return [[__recipient retain] autorelease];
+}
+
+- (void) setRecipient: (NSString *) recipient {
+  [recipient retain];
+  [__recipient release];
+  __recipient = recipient;
+  __recipient_isset = YES;
+}
+
+- (BOOL) recipientIsSet {
+  return __recipient_isset;
+}
+
+- (void) unsetRecipient {
+  [__recipient release];
+  __recipient = nil;
+  __recipient_isset = NO;
 }
 
 - (void) read: (id <TProtocol>) inProtocol
@@ -122,25 +155,23 @@
       case 1:
         if (fieldType == TType_STRING) {
           NSString * fieldValue = [inProtocol readString];
-          [self setMessage: fieldValue];
+          [self setContent: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
       case 2:
-        if (fieldType == TType_LIST) {
-          int _size0;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size0];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size0];
-          int _i1;
-          for (_i1 = 0; _i1 < _size0; ++_i1)
-          {
-            uint8_t _elem2 = [inProtocol readByte];
-            [fieldValue addObject: [NSNumber numberWithUnsignedChar: _elem2]];
-          }
-          [inProtocol readListEnd];
-          [self setImage: fieldValue];
-          [fieldValue release];
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setSender: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 3:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setRecipient: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -156,25 +187,24 @@
 
 - (void) write: (id <TProtocol>) outProtocol {
   [outProtocol writeStructBeginWithName: @"ChatMessage"];
-  if (__message_isset) {
-    if (__message != nil) {
-      [outProtocol writeFieldBeginWithName: @"message" type: TType_STRING fieldID: 1];
-      [outProtocol writeString: __message];
+  if (__content_isset) {
+    if (__content != nil) {
+      [outProtocol writeFieldBeginWithName: @"content" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __content];
       [outProtocol writeFieldEnd];
     }
   }
-  if (__image_isset) {
-    if (__image != nil) {
-      [outProtocol writeFieldBeginWithName: @"image" type: TType_LIST fieldID: 2];
-      {
-        [outProtocol writeListBeginWithElementType: TType_BYTE size: [__image count]];
-        int i4;
-        for (i4 = 0; i4 < [__image count]; i4++)
-        {
-          [outProtocol writeByte: [[__image objectAtIndex: i4] unsignedCharValue]];
-        }
-        [outProtocol writeListEnd];
-      }
+  if (__sender_isset) {
+    if (__sender != nil) {
+      [outProtocol writeFieldBeginWithName: @"sender" type: TType_STRING fieldID: 2];
+      [outProtocol writeString: __sender];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__recipient_isset) {
+    if (__recipient != nil) {
+      [outProtocol writeFieldBeginWithName: @"recipient" type: TType_STRING fieldID: 3];
+      [outProtocol writeString: __recipient];
       [outProtocol writeFieldEnd];
     }
   }
@@ -184,126 +214,12 @@
 
 - (NSString *) description {
   NSMutableString * ms = [NSMutableString stringWithString: @"ChatMessage("];
-  [ms appendString: @"message:"];
-  [ms appendFormat: @"\"%@\"", __message];
-  [ms appendString: @",image:"];
-  [ms appendFormat: @"%@", __image];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@implementation UserAlreadyRegisteredException
-
-- (id) init
-{
-  return [super initWithName: @"UserAlreadyRegisteredException" reason: @"unknown" userInfo: nil];
-}
-- (id) initWithMessage: (NSString *) message
-{
-  self = [self init];
-  __message = [message retain];
-  __message_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super initWithCoder: decoder];
-  if ([decoder containsValueForKey: @"message"])
-  {
-    __message = [[decoder decodeObjectForKey: @"message"] retain];
-    __message_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  [super encodeWithCoder: encoder];
-  if (__message_isset)
-  {
-    [encoder encodeObject: __message forKey: @"message"];
-  }
-}
-
-- (void) dealloc
-{
-  [__message release];
-  [super dealloc];
-}
-
-- (NSString *) message {
-  return [[__message retain] autorelease];
-}
-
-- (void) setMessage: (NSString *) message {
-  [message retain];
-  [__message release];
-  __message = message;
-  __message_isset = YES;
-}
-
-- (BOOL) messageIsSet {
-  return __message_isset;
-}
-
-- (void) unsetMessage {
-  [__message release];
-  __message = nil;
-  __message_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setMessage: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"UserAlreadyRegisteredException"];
-  if (__message_isset) {
-    if (__message != nil) {
-      [outProtocol writeFieldBeginWithName: @"message" type: TType_STRING fieldID: 1];
-      [outProtocol writeString: __message];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"UserAlreadyRegisteredException("];
-  [ms appendString: @"message:"];
-  [ms appendFormat: @"\"%@\"", __message];
+  [ms appendString: @"content:"];
+  [ms appendFormat: @"\"%@\"", __content];
+  [ms appendString: @",sender:"];
+  [ms appendFormat: @"\"%@\"", __sender];
+  [ms appendString: @",recipient:"];
+  [ms appendFormat: @"\"%@\"", __recipient];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -450,18 +366,15 @@
 
 @interface AddNewUser_result : NSObject <NSCoding> {
   NSString * __success;
-  UserAlreadyRegisteredException * __ex;
 
   BOOL __success_isset;
-  BOOL __ex_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, retain, getter=success, setter=setSuccess:) NSString * success;
-@property (nonatomic, retain, getter=ex, setter=setEx:) UserAlreadyRegisteredException * ex;
 #endif
 
-- (id) initWithSuccess: (NSString *) success ex: (UserAlreadyRegisteredException *) ex;
+- (id) initWithSuccess: (NSString *) success;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -470,21 +383,15 @@
 - (void) setSuccess: (NSString *) success;
 - (BOOL) successIsSet;
 
-- (UserAlreadyRegisteredException *) ex;
-- (void) setEx: (UserAlreadyRegisteredException *) ex;
-- (BOOL) exIsSet;
-
 @end
 
 @implementation AddNewUser_result
 
-- (id) initWithSuccess: (NSString *) success ex: (UserAlreadyRegisteredException *) ex
+- (id) initWithSuccess: (NSString *) success
 {
   self = [super init];
   __success = [success retain];
   __success_isset = YES;
-  __ex = [ex retain];
-  __ex_isset = YES;
   return self;
 }
 
@@ -496,11 +403,6 @@
     __success = [[decoder decodeObjectForKey: @"success"] retain];
     __success_isset = YES;
   }
-  if ([decoder containsValueForKey: @"ex"])
-  {
-    __ex = [[decoder decodeObjectForKey: @"ex"] retain];
-    __ex_isset = YES;
-  }
   return self;
 }
 
@@ -510,16 +412,11 @@
   {
     [encoder encodeObject: __success forKey: @"success"];
   }
-  if (__ex_isset)
-  {
-    [encoder encodeObject: __ex forKey: @"ex"];
-  }
 }
 
 - (void) dealloc
 {
   [__success release];
-  [__ex release];
   [super dealloc];
 }
 
@@ -542,27 +439,6 @@
   [__success release];
   __success = nil;
   __success_isset = NO;
-}
-
-- (UserAlreadyRegisteredException *) ex {
-  return [[__ex retain] autorelease];
-}
-
-- (void) setEx: (UserAlreadyRegisteredException *) ex {
-  [ex retain];
-  [__ex release];
-  __ex = ex;
-  __ex_isset = YES;
-}
-
-- (BOOL) exIsSet {
-  return __ex_isset;
-}
-
-- (void) unsetEx {
-  [__ex release];
-  __ex = nil;
-  __ex_isset = NO;
 }
 
 - (void) read: (id <TProtocol>) inProtocol
@@ -588,16 +464,6 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
-      case 1:
-        if (fieldType == TType_STRUCT) {
-          UserAlreadyRegisteredException *fieldValue = [[UserAlreadyRegisteredException alloc] init];
-          [fieldValue read: inProtocol];
-          [self setEx: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
       default:
         [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         break;
@@ -616,12 +482,6 @@
       [outProtocol writeString: __success];
       [outProtocol writeFieldEnd];
     }
-  } else if (__ex_isset) {
-    if (__ex != nil) {
-      [outProtocol writeFieldBeginWithName: @"ex" type: TType_STRUCT fieldID: 1];
-      [__ex write: outProtocol];
-      [outProtocol writeFieldEnd];
-    }
   }
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
@@ -631,8 +491,6 @@
   NSMutableString * ms = [NSMutableString stringWithString: @"AddNewUser_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"\"%@\"", __success];
-  [ms appendString: @",ex:"];
-  [ms appendFormat: @"%@", __ex];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -640,7 +498,7 @@
 @end
 
 @interface sendMessage_args : NSObject <NSCoding> {
-  ChatMessage * __message;
+  NSString * __message;
   NSString * __username;
   NSString * __token;
 
@@ -650,18 +508,18 @@
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=message, setter=setMessage:) ChatMessage * message;
+@property (nonatomic, retain, getter=message, setter=setMessage:) NSString * message;
 @property (nonatomic, retain, getter=username, setter=setUsername:) NSString * username;
 @property (nonatomic, retain, getter=token, setter=setToken:) NSString * token;
 #endif
 
-- (id) initWithMessage: (ChatMessage *) message username: (NSString *) username token: (NSString *) token;
+- (id) initWithMessage: (NSString *) message username: (NSString *) username token: (NSString *) token;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
 
-- (ChatMessage *) message;
-- (void) setMessage: (ChatMessage *) message;
+- (NSString *) message;
+- (void) setMessage: (NSString *) message;
 - (BOOL) messageIsSet;
 
 - (NSString *) username;
@@ -676,7 +534,7 @@
 
 @implementation sendMessage_args
 
-- (id) initWithMessage: (ChatMessage *) message username: (NSString *) username token: (NSString *) token
+- (id) initWithMessage: (NSString *) message username: (NSString *) username token: (NSString *) token
 {
   self = [super init];
   __message = [message retain];
@@ -733,11 +591,11 @@
   [super dealloc];
 }
 
-- (ChatMessage *) message {
+- (NSString *) message {
   return [[__message retain] autorelease];
 }
 
-- (void) setMessage: (ChatMessage *) message {
+- (void) setMessage: (NSString *) message {
   [message retain];
   [__message release];
   __message = message;
@@ -812,11 +670,9 @@
     switch (fieldID)
     {
       case 1:
-        if (fieldType == TType_STRUCT) {
-          ChatMessage *fieldValue = [[ChatMessage alloc] init];
-          [fieldValue read: inProtocol];
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
           [self setMessage: fieldValue];
-          [fieldValue release];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -850,8 +706,8 @@
   [outProtocol writeStructBeginWithName: @"sendMessage_args"];
   if (__message_isset) {
     if (__message != nil) {
-      [outProtocol writeFieldBeginWithName: @"message" type: TType_STRUCT fieldID: 1];
-      [__message write: outProtocol];
+      [outProtocol writeFieldBeginWithName: @"message" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __message];
       [outProtocol writeFieldEnd];
     }
   }
@@ -876,7 +732,7 @@
 - (NSString *) description {
   NSMutableString * ms = [NSMutableString stringWithString: @"sendMessage_args("];
   [ms appendString: @"message:"];
-  [ms appendFormat: @"%@", __message];
+  [ms appendFormat: @"\"%@\"", __message];
   [ms appendString: @",username:"];
   [ms appendFormat: @"\"%@\"", __username];
   [ms appendString: @",token:"];
@@ -888,6 +744,670 @@
 @end
 
 @interface SendMessage_result : NSObject <NSCoding> {
+  NSString * __success;
+
+  BOOL __success_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=success, setter=setSuccess:) NSString * success;
+#endif
+
+- (id) initWithSuccess: (NSString *) success;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) success;
+- (void) setSuccess: (NSString *) success;
+- (BOOL) successIsSet;
+
+@end
+
+@implementation SendMessage_result
+
+- (id) initWithSuccess: (NSString *) success
+{
+  self = [super init];
+  __success = [success retain];
+  __success_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"success"])
+  {
+    __success = [[decoder decodeObjectForKey: @"success"] retain];
+    __success_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__success_isset)
+  {
+    [encoder encodeObject: __success forKey: @"success"];
+  }
+}
+
+- (void) dealloc
+{
+  [__success release];
+  [super dealloc];
+}
+
+- (NSString *) success {
+  return [[__success retain] autorelease];
+}
+
+- (void) setSuccess: (NSString *) success {
+  [success retain];
+  [__success release];
+  __success = success;
+  __success_isset = YES;
+}
+
+- (BOOL) successIsSet {
+  return __success_isset;
+}
+
+- (void) unsetSuccess {
+  [__success release];
+  __success = nil;
+  __success_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 0:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setSuccess: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"SendMessage_result"];
+
+  if (__success_isset) {
+    if (__success != nil) {
+      [outProtocol writeFieldBeginWithName: @"success" type: TType_STRING fieldID: 0];
+      [outProtocol writeString: __success];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"SendMessage_result("];
+  [ms appendString: @"success:"];
+  [ms appendFormat: @"\"%@\"", __success];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface getConversation_args : NSObject <NSCoding> {
+  NSString * __username;
+  NSString * __token;
+
+  BOOL __username_isset;
+  BOOL __token_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=username, setter=setUsername:) NSString * username;
+@property (nonatomic, retain, getter=token, setter=setToken:) NSString * token;
+#endif
+
+- (id) initWithUsername: (NSString *) username token: (NSString *) token;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) username;
+- (void) setUsername: (NSString *) username;
+- (BOOL) usernameIsSet;
+
+- (NSString *) token;
+- (void) setToken: (NSString *) token;
+- (BOOL) tokenIsSet;
+
+@end
+
+@implementation getConversation_args
+
+- (id) initWithUsername: (NSString *) username token: (NSString *) token
+{
+  self = [super init];
+  __username = [username retain];
+  __username_isset = YES;
+  __token = [token retain];
+  __token_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"username"])
+  {
+    __username = [[decoder decodeObjectForKey: @"username"] retain];
+    __username_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"token"])
+  {
+    __token = [[decoder decodeObjectForKey: @"token"] retain];
+    __token_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__username_isset)
+  {
+    [encoder encodeObject: __username forKey: @"username"];
+  }
+  if (__token_isset)
+  {
+    [encoder encodeObject: __token forKey: @"token"];
+  }
+}
+
+- (void) dealloc
+{
+  [__username release];
+  [__token release];
+  [super dealloc];
+}
+
+- (NSString *) username {
+  return [[__username retain] autorelease];
+}
+
+- (void) setUsername: (NSString *) username {
+  [username retain];
+  [__username release];
+  __username = username;
+  __username_isset = YES;
+}
+
+- (BOOL) usernameIsSet {
+  return __username_isset;
+}
+
+- (void) unsetUsername {
+  [__username release];
+  __username = nil;
+  __username_isset = NO;
+}
+
+- (NSString *) token {
+  return [[__token retain] autorelease];
+}
+
+- (void) setToken: (NSString *) token {
+  [token retain];
+  [__token release];
+  __token = token;
+  __token_isset = YES;
+}
+
+- (BOOL) tokenIsSet {
+  return __token_isset;
+}
+
+- (void) unsetToken {
+  [__token release];
+  __token = nil;
+  __token_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setUsername: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setToken: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"getConversation_args"];
+  if (__username_isset) {
+    if (__username != nil) {
+      [outProtocol writeFieldBeginWithName: @"username" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __username];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__token_isset) {
+    if (__token != nil) {
+      [outProtocol writeFieldBeginWithName: @"token" type: TType_STRING fieldID: 2];
+      [outProtocol writeString: __token];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"getConversation_args("];
+  [ms appendString: @"username:"];
+  [ms appendFormat: @"\"%@\"", __username];
+  [ms appendString: @",token:"];
+  [ms appendFormat: @"\"%@\"", __token];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface GetConversation_result : NSObject <NSCoding> {
+  NSArray * __success;
+
+  BOOL __success_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=success, setter=setSuccess:) NSArray * success;
+#endif
+
+- (id) initWithSuccess: (NSArray *) success;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSArray *) success;
+- (void) setSuccess: (NSArray *) success;
+- (BOOL) successIsSet;
+
+@end
+
+@implementation GetConversation_result
+
+- (id) initWithSuccess: (NSArray *) success
+{
+  self = [super init];
+  __success = [success retain];
+  __success_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"success"])
+  {
+    __success = [[decoder decodeObjectForKey: @"success"] retain];
+    __success_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__success_isset)
+  {
+    [encoder encodeObject: __success forKey: @"success"];
+  }
+}
+
+- (void) dealloc
+{
+  [__success release];
+  [super dealloc];
+}
+
+- (NSArray *) success {
+  return [[__success retain] autorelease];
+}
+
+- (void) setSuccess: (NSArray *) success {
+  [success retain];
+  [__success release];
+  __success = success;
+  __success_isset = YES;
+}
+
+- (BOOL) successIsSet {
+  return __success_isset;
+}
+
+- (void) unsetSuccess {
+  [__success release];
+  __success = nil;
+  __success_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 0:
+        if (fieldType == TType_LIST) {
+          int _size0;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size0];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size0];
+          int _i1;
+          for (_i1 = 0; _i1 < _size0; ++_i1)
+          {
+            ChatMessage *_elem2 = [[ChatMessage alloc] init];
+            [_elem2 read: inProtocol];
+            [fieldValue addObject: _elem2];
+            [_elem2 release];
+          }
+          [inProtocol readListEnd];
+          [self setSuccess: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"GetConversation_result"];
+
+  if (__success_isset) {
+    if (__success != nil) {
+      [outProtocol writeFieldBeginWithName: @"success" type: TType_LIST fieldID: 0];
+      {
+        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__success count]];
+        int i4;
+        for (i4 = 0; i4 < [__success count]; i4++)
+        {
+          [[__success objectAtIndex: i4] write: outProtocol];
+        }
+        [outProtocol writeListEnd];
+      }
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"GetConversation_result("];
+  [ms appendString: @"success:"];
+  [ms appendFormat: @"%@", __success];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface registerAndroidToken_args : NSObject <NSCoding> {
+  NSString * __pushToken;
+  NSString * __token;
+
+  BOOL __pushToken_isset;
+  BOOL __token_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=pushToken, setter=setPushToken:) NSString * pushToken;
+@property (nonatomic, retain, getter=token, setter=setToken:) NSString * token;
+#endif
+
+- (id) initWithPushToken: (NSString *) pushToken token: (NSString *) token;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) pushToken;
+- (void) setPushToken: (NSString *) pushToken;
+- (BOOL) pushTokenIsSet;
+
+- (NSString *) token;
+- (void) setToken: (NSString *) token;
+- (BOOL) tokenIsSet;
+
+@end
+
+@implementation registerAndroidToken_args
+
+- (id) initWithPushToken: (NSString *) pushToken token: (NSString *) token
+{
+  self = [super init];
+  __pushToken = [pushToken retain];
+  __pushToken_isset = YES;
+  __token = [token retain];
+  __token_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"pushToken"])
+  {
+    __pushToken = [[decoder decodeObjectForKey: @"pushToken"] retain];
+    __pushToken_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"token"])
+  {
+    __token = [[decoder decodeObjectForKey: @"token"] retain];
+    __token_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__pushToken_isset)
+  {
+    [encoder encodeObject: __pushToken forKey: @"pushToken"];
+  }
+  if (__token_isset)
+  {
+    [encoder encodeObject: __token forKey: @"token"];
+  }
+}
+
+- (void) dealloc
+{
+  [__pushToken release];
+  [__token release];
+  [super dealloc];
+}
+
+- (NSString *) pushToken {
+  return [[__pushToken retain] autorelease];
+}
+
+- (void) setPushToken: (NSString *) pushToken {
+  [pushToken retain];
+  [__pushToken release];
+  __pushToken = pushToken;
+  __pushToken_isset = YES;
+}
+
+- (BOOL) pushTokenIsSet {
+  return __pushToken_isset;
+}
+
+- (void) unsetPushToken {
+  [__pushToken release];
+  __pushToken = nil;
+  __pushToken_isset = NO;
+}
+
+- (NSString *) token {
+  return [[__token retain] autorelease];
+}
+
+- (void) setToken: (NSString *) token {
+  [token retain];
+  [__token release];
+  __token = token;
+  __token_isset = YES;
+}
+
+- (BOOL) tokenIsSet {
+  return __token_isset;
+}
+
+- (void) unsetToken {
+  [__token release];
+  __token = nil;
+  __token_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setPushToken: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setToken: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"registerAndroidToken_args"];
+  if (__pushToken_isset) {
+    if (__pushToken != nil) {
+      [outProtocol writeFieldBeginWithName: @"pushToken" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __pushToken];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__token_isset) {
+    if (__token != nil) {
+      [outProtocol writeFieldBeginWithName: @"token" type: TType_STRING fieldID: 2];
+      [outProtocol writeString: __token];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"registerAndroidToken_args("];
+  [ms appendString: @"pushToken:"];
+  [ms appendFormat: @"\"%@\"", __pushToken];
+  [ms appendString: @",token:"];
+  [ms appendFormat: @"\"%@\"", __token];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface RegisterAndroidToken_result : NSObject <NSCoding> {
 }
 
 
@@ -896,7 +1416,7 @@
 
 @end
 
-@implementation SendMessage_result
+@implementation RegisterAndroidToken_result
 
 - (id) initWithCoder: (NSCoder *) decoder
 {
@@ -933,14 +1453,263 @@
 }
 
 - (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"SendMessage_result"];
+  [outProtocol writeStructBeginWithName: @"RegisterAndroidToken_result"];
 
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"SendMessage_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"RegisterAndroidToken_result("];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface registeriOSToken_args : NSObject <NSCoding> {
+  NSString * __pushToken;
+  NSString * __token;
+
+  BOOL __pushToken_isset;
+  BOOL __token_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=pushToken, setter=setPushToken:) NSString * pushToken;
+@property (nonatomic, retain, getter=token, setter=setToken:) NSString * token;
+#endif
+
+- (id) initWithPushToken: (NSString *) pushToken token: (NSString *) token;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+- (NSString *) pushToken;
+- (void) setPushToken: (NSString *) pushToken;
+- (BOOL) pushTokenIsSet;
+
+- (NSString *) token;
+- (void) setToken: (NSString *) token;
+- (BOOL) tokenIsSet;
+
+@end
+
+@implementation registeriOSToken_args
+
+- (id) initWithPushToken: (NSString *) pushToken token: (NSString *) token
+{
+  self = [super init];
+  __pushToken = [pushToken retain];
+  __pushToken_isset = YES;
+  __token = [token retain];
+  __token_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"pushToken"])
+  {
+    __pushToken = [[decoder decodeObjectForKey: @"pushToken"] retain];
+    __pushToken_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"token"])
+  {
+    __token = [[decoder decodeObjectForKey: @"token"] retain];
+    __token_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__pushToken_isset)
+  {
+    [encoder encodeObject: __pushToken forKey: @"pushToken"];
+  }
+  if (__token_isset)
+  {
+    [encoder encodeObject: __token forKey: @"token"];
+  }
+}
+
+- (void) dealloc
+{
+  [__pushToken release];
+  [__token release];
+  [super dealloc];
+}
+
+- (NSString *) pushToken {
+  return [[__pushToken retain] autorelease];
+}
+
+- (void) setPushToken: (NSString *) pushToken {
+  [pushToken retain];
+  [__pushToken release];
+  __pushToken = pushToken;
+  __pushToken_isset = YES;
+}
+
+- (BOOL) pushTokenIsSet {
+  return __pushToken_isset;
+}
+
+- (void) unsetPushToken {
+  [__pushToken release];
+  __pushToken = nil;
+  __pushToken_isset = NO;
+}
+
+- (NSString *) token {
+  return [[__token retain] autorelease];
+}
+
+- (void) setToken: (NSString *) token {
+  [token retain];
+  [__token release];
+  __token = token;
+  __token_isset = YES;
+}
+
+- (BOOL) tokenIsSet {
+  return __token_isset;
+}
+
+- (void) unsetToken {
+  [__token release];
+  __token = nil;
+  __token_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setPushToken: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setToken: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"registeriOSToken_args"];
+  if (__pushToken_isset) {
+    if (__pushToken != nil) {
+      [outProtocol writeFieldBeginWithName: @"pushToken" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __pushToken];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__token_isset) {
+    if (__token != nil) {
+      [outProtocol writeFieldBeginWithName: @"token" type: TType_STRING fieldID: 2];
+      [outProtocol writeString: __token];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"registeriOSToken_args("];
+  [ms appendString: @"pushToken:"];
+  [ms appendFormat: @"\"%@\"", __pushToken];
+  [ms appendString: @",token:"];
+  [ms appendFormat: @"\"%@\"", __token];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface RegisteriOSToken_result : NSObject <NSCoding> {
+}
+
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+@end
+
+@implementation RegisteriOSToken_result
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"RegisteriOSToken_result"];
+
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"RegisteriOSToken_result("];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -998,9 +1767,6 @@
   if ([result successIsSet]) {
     return [result success];
   }
-  if ([result exIsSet]) {
-    @throw [result ex];
-  }
   @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
                                            reason: @"addNewUser failed: unknown result"];
 }
@@ -1011,13 +1777,13 @@
   return [self recv_addNewUser];
 }
 
-- (void) send_sendMessage: (ChatMessage *) message : (NSString *) username : (NSString *) token
+- (void) send_sendMessage: (NSString *) message : (NSString *) username : (NSString *) token
 {
   [outProtocol writeMessageBeginWithName: @"sendMessage" type: TMessageType_CALL sequenceID: 0];
   [outProtocol writeStructBeginWithName: @"sendMessage_args"];
   if (message != nil)  {
-    [outProtocol writeFieldBeginWithName: @"message" type: TType_STRUCT fieldID: 1];
-    [message write: outProtocol];
+    [outProtocol writeFieldBeginWithName: @"message" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: message];
     [outProtocol writeFieldEnd];
   }
   if (username != nil)  {
@@ -1036,7 +1802,7 @@
   [[outProtocol transport] flush];
 }
 
-- (void) recv_sendMessage
+- (NSString *) recv_sendMessage
 {
   int msgType = 0;
   [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
@@ -1048,13 +1814,144 @@
   SendMessage_result * result = [[[SendMessage_result alloc] init] autorelease];
   [result read: inProtocol];
   [inProtocol readMessageEnd];
+  if ([result successIsSet]) {
+    return [result success];
+  }
+  @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
+                                           reason: @"sendMessage failed: unknown result"];
+}
+
+- (NSString *) sendMessage: (NSString *) message : (NSString *) username : (NSString *) token
+{
+  [self send_sendMessage: message : username : token];
+  return [self recv_sendMessage];
+}
+
+- (void) send_getConversation: (NSString *) username : (NSString *) token
+{
+  [outProtocol writeMessageBeginWithName: @"getConversation" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"getConversation_args"];
+  if (username != nil)  {
+    [outProtocol writeFieldBeginWithName: @"username" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: username];
+    [outProtocol writeFieldEnd];
+  }
+  if (token != nil)  {
+    [outProtocol writeFieldBeginWithName: @"token" type: TType_STRING fieldID: 2];
+    [outProtocol writeString: token];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (NSArray *) recv_getConversation
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  GetConversation_result * result = [[[GetConversation_result alloc] init] autorelease];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
+  if ([result successIsSet]) {
+    return [result success];
+  }
+  @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
+                                           reason: @"getConversation failed: unknown result"];
+}
+
+- (NSArray *) getConversation: (NSString *) username : (NSString *) token
+{
+  [self send_getConversation: username : token];
+  return [self recv_getConversation];
+}
+
+- (void) send_registerAndroidToken: (NSString *) pushToken : (NSString *) token
+{
+  [outProtocol writeMessageBeginWithName: @"registerAndroidToken" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"registerAndroidToken_args"];
+  if (pushToken != nil)  {
+    [outProtocol writeFieldBeginWithName: @"pushToken" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: pushToken];
+    [outProtocol writeFieldEnd];
+  }
+  if (token != nil)  {
+    [outProtocol writeFieldBeginWithName: @"token" type: TType_STRING fieldID: 2];
+    [outProtocol writeString: token];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (void) recv_registerAndroidToken
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  RegisterAndroidToken_result * result = [[[RegisterAndroidToken_result alloc] init] autorelease];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
   return;
 }
 
-- (void) sendMessage: (ChatMessage *) message : (NSString *) username : (NSString *) token
+- (void) registerAndroidToken: (NSString *) pushToken : (NSString *) token
 {
-  [self send_sendMessage: message : username : token];
-  [self recv_sendMessage];
+  [self send_registerAndroidToken: pushToken : token];
+  [self recv_registerAndroidToken];
+}
+
+- (void) send_registeriOSToken: (NSString *) pushToken : (NSString *) token
+{
+  [outProtocol writeMessageBeginWithName: @"registeriOSToken" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"registeriOSToken_args"];
+  if (pushToken != nil)  {
+    [outProtocol writeFieldBeginWithName: @"pushToken" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: pushToken];
+    [outProtocol writeFieldEnd];
+  }
+  if (token != nil)  {
+    [outProtocol writeFieldBeginWithName: @"token" type: TType_STRING fieldID: 2];
+    [outProtocol writeString: token];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (void) recv_registeriOSToken
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  RegisteriOSToken_result * result = [[[RegisteriOSToken_result alloc] init] autorelease];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
+  return;
+}
+
+- (void) registeriOSToken: (NSString *) pushToken : (NSString *) token
+{
+  [self send_registeriOSToken: pushToken : token];
+  [self recv_registeriOSToken];
 }
 
 @end
@@ -1084,6 +1981,30 @@
     [invocation setSelector: s];
     [invocation retainArguments];
     [mMethodMap setValue: invocation forKey: @"sendMessage"];
+  }
+  {
+    SEL s = @selector(process_getConversation_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"getConversation"];
+  }
+  {
+    SEL s = @selector(process_registerAndroidToken_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"registerAndroidToken"];
+  }
+  {
+    SEL s = @selector(process_registeriOSToken_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"registeriOSToken"];
   }
   return self;
 }
@@ -1149,8 +2070,59 @@
   [args read: inProtocol];
   [inProtocol readMessageEnd];
   SendMessage_result * result = [[SendMessage_result alloc] init];
-  [mService sendMessage: [args message]: [args username]: [args token]];
+  [result setSuccess: [mService sendMessage: [args message]: [args username]: [args token]]];
   [outProtocol writeMessageBeginWithName: @"sendMessage"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release];
+  [args release];
+}
+
+- (void) process_getConversation_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  getConversation_args * args = [[getConversation_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  GetConversation_result * result = [[GetConversation_result alloc] init];
+  [result setSuccess: [mService getConversation: [args username]: [args token]]];
+  [outProtocol writeMessageBeginWithName: @"getConversation"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release];
+  [args release];
+}
+
+- (void) process_registerAndroidToken_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  registerAndroidToken_args * args = [[registerAndroidToken_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  RegisterAndroidToken_result * result = [[RegisterAndroidToken_result alloc] init];
+  [mService registerAndroidToken: [args pushToken]: [args token]];
+  [outProtocol writeMessageBeginWithName: @"registerAndroidToken"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release];
+  [args release];
+}
+
+- (void) process_registeriOSToken_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  registeriOSToken_args * args = [[registeriOSToken_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  RegisteriOSToken_result * result = [[RegisteriOSToken_result alloc] init];
+  [mService registeriOSToken: [args pushToken]: [args token]];
+  [outProtocol writeMessageBeginWithName: @"registeriOSToken"
                                     type: TMessageType_REPLY
                               sequenceID: seqID];
   [result write: outProtocol];

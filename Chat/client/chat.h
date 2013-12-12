@@ -14,57 +14,46 @@
 
 
 @interface ChatMessage : NSObject <NSCoding> {
-  NSString * __message;
-  NSArray * __image;
+  NSString * __content;
+  NSString * __sender;
+  NSString * __recipient;
 
-  BOOL __message_isset;
-  BOOL __image_isset;
+  BOOL __content_isset;
+  BOOL __sender_isset;
+  BOOL __recipient_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=message, setter=setMessage:) NSString * message;
-@property (nonatomic, retain, getter=image, setter=setImage:) NSArray * image;
+@property (nonatomic, retain, getter=content, setter=setContent:) NSString * content;
+@property (nonatomic, retain, getter=sender, setter=setSender:) NSString * sender;
+@property (nonatomic, retain, getter=recipient, setter=setRecipient:) NSString * recipient;
 #endif
 
-- (id) initWithMessage: (NSString *) message image: (NSArray *) image;
+- (id) initWithContent: (NSString *) content sender: (NSString *) sender recipient: (NSString *) recipient;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
 
-- (NSString *) message;
-- (void) setMessage: (NSString *) message;
-- (BOOL) messageIsSet;
+- (NSString *) content;
+- (void) setContent: (NSString *) content;
+- (BOOL) contentIsSet;
 
-- (NSArray *) image;
-- (void) setImage: (NSArray *) image;
-- (BOOL) imageIsSet;
+- (NSString *) sender;
+- (void) setSender: (NSString *) sender;
+- (BOOL) senderIsSet;
 
-@end
-
-@interface UserAlreadyRegisteredException : NSException <NSCoding> {
-  NSString * __message;
-
-  BOOL __message_isset;
-}
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=message, setter=setMessage:) NSString * message;
-#endif
-
-- (id) initWithMessage: (NSString *) message;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-- (NSString *) message;
-- (void) setMessage: (NSString *) message;
-- (BOOL) messageIsSet;
+- (NSString *) recipient;
+- (void) setRecipient: (NSString *) recipient;
+- (BOOL) recipientIsSet;
 
 @end
 
 @protocol ChatAPI <NSObject>
-- (NSString *) addNewUser: (NSString *) username;  // throws UserAlreadyRegisteredException *, TException
-- (void) sendMessage: (ChatMessage *) message : (NSString *) username : (NSString *) token;  // throws TException
+- (NSString *) addNewUser: (NSString *) username;  // throws TException
+- (NSString *) sendMessage: (NSString *) message : (NSString *) username : (NSString *) token;  // throws TException
+- (NSArray *) getConversation: (NSString *) username : (NSString *) token;  // throws TException
+- (void) registerAndroidToken: (NSString *) pushToken : (NSString *) token;  // throws TException
+- (void) registeriOSToken: (NSString *) pushToken : (NSString *) token;  // throws TException
 @end
 
 @interface ChatAPIClient : NSObject <ChatAPI> {

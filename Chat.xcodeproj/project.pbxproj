@@ -24,7 +24,7 @@
 		DB0130ED1856A49B00FD78FC /* chat.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0130EC1856A49B00FD78FC /* chat.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DB0131111856AD9C00FD78FC /* TBinaryProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0130F11856AD9C00FD78FC /* TBinaryProtocol.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DB0131121856AD9C00FD78FC /* TProtocolException.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0130F41856AD9C00FD78FC /* TProtocolException.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		DB0131131856AD9C00FD78FC /* TProtocolUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0130F71856AD9C00FD78FC /* TProtocolUtil.m */; };
+		DB0131131856AD9C00FD78FC /* TProtocolUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0130F71856AD9C00FD78FC /* TProtocolUtil.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DB0131141856AD9C00FD78FC /* TSocketServer.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0130FA1856AD9C00FD78FC /* TSocketServer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DB0131151856AD9C00FD78FC /* TApplicationException.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0130FC1856AD9C00FD78FC /* TApplicationException.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DB0131161856AD9C00FD78FC /* TException.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0130FE1856AD9C00FD78FC /* TException.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -33,8 +33,17 @@
 		DB0131191856AD9C00FD78FC /* TNSFileHandleTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0131071856AD9C00FD78FC /* TNSFileHandleTransport.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DB01311A1856AD9C00FD78FC /* TNSStreamTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0131091856AD9C00FD78FC /* TNSStreamTransport.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DB01311B1856AD9C00FD78FC /* TSocketClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DB01310B1856AD9C00FD78FC /* TSocketClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		DB01311C1856AD9C00FD78FC /* TTransportException.m in Sources */ = {isa = PBXBuildFile; fileRef = DB01310E1856AD9C00FD78FC /* TTransportException.m */; };
+		DB01311C1856AD9C00FD78FC /* TTransportException.m in Sources */ = {isa = PBXBuildFile; fileRef = DB01310E1856AD9C00FD78FC /* TTransportException.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DB01311D1856AD9C00FD78FC /* TSharedProcessorFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0131101856AD9C00FD78FC /* TSharedProcessorFactory.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DB0ACF401857E40A00AD025C /* ChatClientFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0ACF3F1857E40A00AD025C /* ChatClientFactory.m */; };
+		DB0ACF431857E67300AD025C /* AddUserService.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0ACF421857E67300AD025C /* AddUserService.m */; };
+		DB0ACF461857E84B00AD025C /* BaseService.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0ACF451857E84B00AD025C /* BaseService.m */; };
+		DB0ACF49185826EC00AD025C /* RegisterTokenService.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0ACF48185826EC00AD025C /* RegisterTokenService.m */; };
+		DB5747E318592A2300485E90 /* MessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DB5747E218592A2300485E90 /* MessageManager.m */; };
+		DB5747E6185930E400485E90 /* GetConversationService.m in Sources */ = {isa = PBXBuildFile; fileRef = DB5747E5185930E400485E90 /* GetConversationService.m */; };
+		DB5747E918593DFD00485E90 /* ChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB5747E818593DFD00485E90 /* ChatCell.xib */; };
+		DB5747EC18593E9400485E90 /* ChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DB5747EB18593E9400485E90 /* ChatCell.m */; };
+		DB5747F318594A8700485E90 /* SendMessageService.m in Sources */ = {isa = PBXBuildFile; fileRef = DB5747F218594A8700485E90 /* SendMessageService.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +109,24 @@
 		DB01310E1856AD9C00FD78FC /* TTransportException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTransportException.m; sourceTree = "<group>"; };
 		DB01310F1856AD9C00FD78FC /* TSharedProcessorFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSharedProcessorFactory.h; sourceTree = "<group>"; };
 		DB0131101856AD9C00FD78FC /* TSharedProcessorFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSharedProcessorFactory.m; sourceTree = "<group>"; };
+		DB0ACF3E1857E40A00AD025C /* ChatClientFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatClientFactory.h; sourceTree = "<group>"; };
+		DB0ACF3F1857E40A00AD025C /* ChatClientFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatClientFactory.m; sourceTree = "<group>"; };
+		DB0ACF411857E67300AD025C /* AddUserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddUserService.h; sourceTree = "<group>"; };
+		DB0ACF421857E67300AD025C /* AddUserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddUserService.m; sourceTree = "<group>"; };
+		DB0ACF441857E84B00AD025C /* BaseService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseService.h; sourceTree = "<group>"; };
+		DB0ACF451857E84B00AD025C /* BaseService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseService.m; sourceTree = "<group>"; };
+		DB0ACF47185826EC00AD025C /* RegisterTokenService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterTokenService.h; sourceTree = "<group>"; };
+		DB0ACF48185826EC00AD025C /* RegisterTokenService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterTokenService.m; sourceTree = "<group>"; };
+		DB5747DF1858D11200485E90 /* ChatConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatConstants.h; sourceTree = "<group>"; };
+		DB5747E118592A2300485E90 /* MessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageManager.h; sourceTree = "<group>"; };
+		DB5747E218592A2300485E90 /* MessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageManager.m; sourceTree = "<group>"; };
+		DB5747E4185930E400485E90 /* GetConversationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetConversationService.h; sourceTree = "<group>"; };
+		DB5747E5185930E400485E90 /* GetConversationService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetConversationService.m; sourceTree = "<group>"; };
+		DB5747E818593DFD00485E90 /* ChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatCell.xib; sourceTree = "<group>"; };
+		DB5747EA18593E9400485E90 /* ChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatCell.h; sourceTree = "<group>"; };
+		DB5747EB18593E9400485E90 /* ChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatCell.m; sourceTree = "<group>"; };
+		DB5747F118594A8700485E90 /* SendMessageService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendMessageService.h; sourceTree = "<group>"; };
+		DB5747F218594A8700485E90 /* SendMessageService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendMessageService.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +186,7 @@
 		DB01306D1856242F00FD78FC /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				DB5747E718593DCD00485E90 /* UI */,
 				DB0130EE1856AD9C00FD78FC /* thrift */,
 				DB0130EA1856A49B00FD78FC /* client */,
 				DB0130761856242F00FD78FC /* AppDelegate.h */,
@@ -168,6 +196,7 @@
 				DB01307D1856242F00FD78FC /* ViewController.m */,
 				DB01307F1856242F00FD78FC /* Images.xcassets */,
 				DB01306E1856242F00FD78FC /* Supporting Files */,
+				DB5747DF1858D11200485E90 /* ChatConstants.h */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -204,8 +233,22 @@
 		DB0130EA1856A49B00FD78FC /* client */ = {
 			isa = PBXGroup;
 			children = (
+				DB0ACF411857E67300AD025C /* AddUserService.h */,
+				DB0ACF421857E67300AD025C /* AddUserService.m */,
+				DB0ACF441857E84B00AD025C /* BaseService.h */,
+				DB0ACF451857E84B00AD025C /* BaseService.m */,
 				DB0130EB1856A49B00FD78FC /* chat.h */,
 				DB0130EC1856A49B00FD78FC /* chat.m */,
+				DB0ACF3E1857E40A00AD025C /* ChatClientFactory.h */,
+				DB0ACF3F1857E40A00AD025C /* ChatClientFactory.m */,
+				DB5747E4185930E400485E90 /* GetConversationService.h */,
+				DB5747E5185930E400485E90 /* GetConversationService.m */,
+				DB5747E118592A2300485E90 /* MessageManager.h */,
+				DB5747E218592A2300485E90 /* MessageManager.m */,
+				DB0ACF47185826EC00AD025C /* RegisterTokenService.h */,
+				DB0ACF48185826EC00AD025C /* RegisterTokenService.m */,
+				DB5747F118594A8700485E90 /* SendMessageService.h */,
+				DB5747F218594A8700485E90 /* SendMessageService.m */,
 			);
 			path = client;
 			sourceTree = "<group>";
@@ -270,6 +313,16 @@
 				DB01310E1856AD9C00FD78FC /* TTransportException.m */,
 			);
 			path = transport;
+			sourceTree = "<group>";
+		};
+		DB5747E718593DCD00485E90 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				DB5747E818593DFD00485E90 /* ChatCell.xib */,
+				DB5747EA18593E9400485E90 /* ChatCell.h */,
+				DB5747EB18593E9400485E90 /* ChatCell.m */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -348,6 +401,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB0130801856242F00FD78FC /* Images.xcassets in Resources */,
+				DB5747E918593DFD00485E90 /* ChatCell.xib in Resources */,
 				DB0130721856242F00FD78FC /* InfoPlist.strings in Resources */,
 				DB01307B1856242F00FD78FC /* Main.storyboard in Resources */,
 			);
@@ -371,18 +425,26 @@
 				DB01311C1856AD9C00FD78FC /* TTransportException.m in Sources */,
 				DB0131131856AD9C00FD78FC /* TProtocolUtil.m in Sources */,
 				DB0131191856AD9C00FD78FC /* TNSFileHandleTransport.m in Sources */,
+				DB5747F318594A8700485E90 /* SendMessageService.m in Sources */,
 				DB0131111856AD9C00FD78FC /* TBinaryProtocol.m in Sources */,
+				DB0ACF461857E84B00AD025C /* BaseService.m in Sources */,
 				DB01307E1856242F00FD78FC /* ViewController.m in Sources */,
 				DB01311B1856AD9C00FD78FC /* TSocketClient.m in Sources */,
 				DB0131151856AD9C00FD78FC /* TApplicationException.m in Sources */,
 				DB01311A1856AD9C00FD78FC /* TNSStreamTransport.m in Sources */,
+				DB5747E318592A2300485E90 /* MessageManager.m in Sources */,
 				DB0131121856AD9C00FD78FC /* TProtocolException.m in Sources */,
+				DB0ACF401857E40A00AD025C /* ChatClientFactory.m in Sources */,
 				DB0130781856242F00FD78FC /* AppDelegate.m in Sources */,
+				DB0ACF431857E67300AD025C /* AddUserService.m in Sources */,
+				DB0ACF49185826EC00AD025C /* RegisterTokenService.m in Sources */,
 				DB0130741856242F00FD78FC /* main.m in Sources */,
+				DB5747E6185930E400485E90 /* GetConversationService.m in Sources */,
 				DB0131141856AD9C00FD78FC /* TSocketServer.m in Sources */,
 				DB0131171856AD9C00FD78FC /* THTTPClient.m in Sources */,
 				DB01311D1856AD9C00FD78FC /* TSharedProcessorFactory.m in Sources */,
 				DB0131181856AD9C00FD78FC /* TMemoryBuffer.m in Sources */,
+				DB5747EC18593E9400485E90 /* ChatCell.m in Sources */,
 				DB0131161856AD9C00FD78FC /* TException.m in Sources */,
 				DB0130ED1856A49B00FD78FC /* chat.m in Sources */,
 			);
@@ -514,6 +576,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Chat/Chat-Prefix.pch";
 				INFOPLIST_FILE = "Chat/Chat-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -527,6 +590,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Chat/Chat-Prefix.pch";
 				INFOPLIST_FILE = "Chat/Chat-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
